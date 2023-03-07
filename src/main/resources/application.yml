@@ -1,0 +1,25 @@
+
+
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/sales
+    username: salesman
+    password: password
+  sql:
+    init:
+      platform: postgres
+      mode: always
+  graphql:
+    graphiql:
+      enabled: false
+    path: /graphql
+
+

@@ -1,0 +1,41 @@
+
+type Query {
+    getSalesData(request: SalesDataRequest!) : SalesData
+}
+
+type Mutation {
+    createPayment(request: PaymentRequest!) : Payment
+}
+
+type Payment {
+    finalPrice : String
+    points : Float
+}
+
+type SalesData {
+    sales : Sales
+}
+
+type Sales {
+    dateTime : DateTime
+    sales : String
+    points : Float
+}
+
+input PaymentRequest {
+    price : String!
+    priceModifier : Float!
+    paymentMethod : PaymentMethod!
+    datetime : DateTime!
+}
+
+input SalesDataRequest {
+    startDateTime : DateTime
+    endDateTime : DateTime
+}
+
+enum PaymentMethod {
+    MASTERCARD
+}
+
+scalar DateTime
