@@ -19,16 +19,16 @@ create postgres database "salesman" with user "salesman";
 ```
 
 To run the project 
-
+```
   ./gradlew build
   ./gradlew bootRun
-  
+```
 This will start the Spring Boot application on port 8080.
 
 API Endpoints
 
 POST /graphql: 
-
+```
 mutation CreatePayment($paymentRequest: PaymentRequest!) {
   createPayment(request: $paymentRequest) {
       finalPrice
@@ -44,9 +44,9 @@ mutation CreatePayment($paymentRequest: PaymentRequest!) {
         "datetime": "2023-03-07T13:35:30.00"
     }
 }
-
+```
 ----------------------------------------------------
-
+```
 query GetSalesData($salesDataRequest: SalesDataRequest!) {
   getSalesData(request: $salesDataRequest) {
       sales {
@@ -63,3 +63,4 @@ query GetSalesData($salesDataRequest: SalesDataRequest!) {
         "endDateTime": "2023-03-06T23:59:59.00"
     }
 }
+```
