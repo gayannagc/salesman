@@ -29,7 +29,7 @@ class DefaultPointComputer(
                 pointModifier = paymentMethodConfig.pointConfig.pointModifier
             )
         }catch (e: Exception){
-            throw GenericException("exception while calculating points")
+            throw GenericException("exception ${e.message} while calculating points")
         }
     }
 }

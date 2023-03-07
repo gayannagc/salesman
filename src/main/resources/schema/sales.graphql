@@ -36,6 +36,11 @@ input SalesDataRequest {
 
 enum PaymentMethod {
     MASTERCARD
+    CASH
+    CASH_ON_DELIVERY
+    VISA
+    AMEX
+    JCB
 }
 
 scalar DateTime

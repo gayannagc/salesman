@@ -12,7 +12,7 @@ import javax.persistence.*
 
 
 @Entity
-@Table(name = "payments")
+@Table(name = "payments", indexes = [Index(columnList = "createdDate")])
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType::class)
 data class PaymentEntity (
     @Id

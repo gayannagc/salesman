@@ -39,14 +39,20 @@ class SalesService(
     }
 
     fun processPayment(request: PaymentRequest): Payment {
-        val computerType = ComputerType.toComputerType(request.paymentMethod)
-        val finalPrice = priceComputerMap[computerType]?.compute(ComputePaymentRequest.convertFrom(request))
-        val points = pointComputerMap[computerType]?.compute(ComputePointsRequest.convertFrom(request))
-        val payment = createPayment(finalPrice, points, request)
-        return Payment.newBuilder()
-            .finalPrice(payment.finalPrice.toString())
-            .points(payment.pointsAwarded)
-            .build()
+        if (Validator.validatePaymentCreateRequest(request)){
+            val computerType = ComputerType.toComputerType(request.paymentMethod)
+            val finalPrice = priceComputerMap[computerType]?.compute(ComputePaymentRequest.convertFrom(request))
+            val points = pointComputerMap[computerType]?.compute(ComputePointsRequest.convertFrom(request))
+            val payment = createPayment(finalPrice, points, request)
+            return Payment.newBuilder()
+                .finalPrice(payment.finalPrice.toString())
+                .points(payment.pointsAwarded)
+                .build()
+        }else {
+            log.error { "invalid input $request for payment creation" }
+            throw GenericException("provided input is invalid")
+        }
+
     }
 
     fun getSales(request: SalesDataRequest): SalesData {
@@ -125,4 +131,6 @@ class SalesService(
             throw GenericException("unexpected error occur while processing the payment")
         }
     }
+
+
 }
