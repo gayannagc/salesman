@@ -1,4 +1,4 @@
-Salesman Kotlin Spring Boot Application
+## Salesman Kotlin Spring Boot Application ##
 
 This repository contains a sample Kotlin Spring Boot Application that showcases various features of Spring Boot.
 
@@ -10,8 +10,9 @@ Getting Started
 
 To get started with the application, clone the repository and run the following command:
 
+
+create postgres database "salesman" with user "salesman"
 ```
-create postgres database "salesman" with user "salesman";
   psql -> CREATE ROLE salesman with password "password" "superadmin";
            CREATE DATABASE salesman with password "password";
            GRANT ALL PRIVILEGES ON salesman TO 'salesman';
