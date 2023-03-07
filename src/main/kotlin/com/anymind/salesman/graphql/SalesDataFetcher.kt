@@ -6,6 +6,7 @@ import com.anymind.generated.types.SalesData
 import com.anymind.generated.types.SalesDataRequest
 import com.anymind.salesman.service.SalesService
 import com.netflix.graphql.dgs.DgsComponent
+import com.netflix.graphql.dgs.DgsEnableDataFetcherInstrumentation
 import com.netflix.graphql.dgs.DgsQuery
 import com.netflix.graphql.dgs.InputArgument
 
