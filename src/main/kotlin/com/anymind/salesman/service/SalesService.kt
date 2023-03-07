@@ -1,9 +1,6 @@
 package com.anymind.salesman.service
 
-import com.anymind.generated.types.Payment
-import com.anymind.generated.types.PaymentRequest
-import com.anymind.generated.types.SalesData
-import com.anymind.generated.types.SalesDataRequest
+import com.anymind.generated.types.*
 import com.anymind.salesman.common.GenericException
 import com.anymind.salesman.data.dto.ComputePaymentRequest
 import com.anymind.salesman.data.dto.ComputePointsRequest
@@ -16,8 +13,13 @@ import com.anymind.salesman.service.computers.ComputerType
 import com.anymind.salesman.service.computers.PointComputer
 import com.anymind.salesman.service.computers.PriceComputer
 import mu.KotlinLogging
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 import javax.annotation.PostConstruct
+import javax.swing.SortOrder
+
 
 private val log = KotlinLogging.logger {}
 
@@ -48,8 +50,51 @@ class SalesService(
     }
 
     fun getSales(request: SalesDataRequest): SalesData {
-        TODO("Not yet implemented")
+        if (request.startDateTime.isAfter(request.endDateTime)){
+            log.error { "start date ${request.startDateTime} comes after end date ${request.endDateTime}" }
+            throw GenericException("provided date range is invalid")
+        }
+        try {
+            var sales = arrayListOf<Sales>()
+            var salesList = paymentRepository.findAllByCreatedDateBetween(request.startDateTime, request.endDateTime, Sort.by(Sort.Direction.ASC,"createdDate"))
+            if (salesList.isNotEmpty()) {
+                var startingHour = salesList[0].createdDate.truncatedTo(ChronoUnit.HOURS)
+                sales.add(Sales.newBuilder().sales("0.0").points(0.0).dateTime(startingHour).build())
+                salesList.forEach { payment ->
+                    if (isPaymentWithinInterval(payment.createdDate, startingHour)) {
+                        var aggregatedSales = sales.last().sales.toDouble() + payment.finalPrice
+                        sales.last().sales = aggregatedSales.toString()
+                        sales.last().points += payment.pointsAwarded
+                    } else {
+                        startingHour = payment.createdDate.truncatedTo(ChronoUnit.HOURS)
+                        sales.add(collectHourlySales(payment.finalPrice, payment.pointsAwarded, startingHour))
+                    }
+                }
+            }
+            return SalesData.newBuilder().sales(sales).build()
+        }catch (e: Exception){
+            throw GenericException("error ${e.message} occurred while fetching sales data")
+        }
     }
+
+    private fun isPaymentWithinInterval(
+        createdDate: LocalDateTime,
+        intervalStart: LocalDateTime
+    ) =
+        (createdDate.isEqual(intervalStart) || createdDate.isAfter(intervalStart))
+                && createdDate.isBefore(intervalStart.plusHours(1)
+        )
+
+    private fun collectHourlySales(
+        hourlyAggregatedSales: Double,
+        hourlyAggregatedPoints: Double,
+        intervalStart: LocalDateTime?
+    ) = Sales.newBuilder()
+        .sales(hourlyAggregatedSales.toString())
+        .points(hourlyAggregatedPoints)
+        .dateTime(intervalStart)
+        .build()
+
 
     private fun createPayment(
         finalPayment: FinalPayment?,

@@ -13,7 +13,7 @@ type Payment {
 }
 
 type SalesData {
-    sales : Sales
+    sales : [Sales]
 }
 
 type Sales {
