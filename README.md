@@ -10,10 +10,13 @@ Getting Started
 
 To get started with the application, clone the repository and run the following command:
 
+```
 create postgres database "salesman" with user "salesman";
-   psql -> CREATE ROLE salesman with password "password" "superadmin";
+  psql -> CREATE ROLE salesman with password "password" "superadmin";
            CREATE DATABASE salesman with password "password";
            GRANT ALL PRIVILEGES ON salesman TO 'salesman';
+           
+```
 
 To run the project 
 
