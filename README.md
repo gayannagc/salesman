@@ -2,10 +2,10 @@
 
 This repository contains a sample Kotlin Spring Boot Application that showcases various features of Spring Boot.
 
-#Prerequisites#
+# Prerequisites #
 
-  JDK 11 or later
-  Gradle 6.0 or later
+  * JDK 11 or later
+  * Gradle 6.0 or later
   
 Getting Started
 
