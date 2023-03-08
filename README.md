@@ -2,7 +2,8 @@
 
 This repository contains a sample Kotlin Spring Boot Application that showcases various features of Spring Boot.
 
-Prerequisites
+#Prerequisites#
+
   JDK 11 or later
   Gradle 6.0 or later
   
@@ -13,8 +14,8 @@ To get started with the application, clone the repository and run the following 
 
 create postgres database "salesman" with user "salesman"
 ```
-  psql -> CREATE ROLE salesman with password "password" "superadmin";
-           CREATE DATABASE salesman with password "password";
+  psql ->  CREATE ROLE salesman with password "password";
+           CREATE DATABASE salesman;
            GRANT ALL PRIVILEGES ON salesman TO 'salesman';
            
 ```
